@@ -59,7 +59,12 @@ app.use(errorHandler);
 
 // ── Database & Server Start ──
 const PORT = process.env.PORT || 5000;
-const MONGO_URI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/fleetflow';
+const MONGO_URI = process.env.MONGO_URI;
+
+if (!MONGO_URI) {
+  console.error('❌ MONGO_URI is missing. Set it in Render environment variables.');
+  process.exit(1);
+}
 
 server.on('error', (err) => {
   if (err.code === 'EADDRINUSE') {
